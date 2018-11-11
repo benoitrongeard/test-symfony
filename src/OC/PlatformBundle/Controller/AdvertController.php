@@ -15,6 +15,7 @@ class AdvertController extends Controller
 {
   public function indexAction($page)
   {
+      phpinfo();
       $em = $this->getDoctrine()->getManager();
       $listAdverts = $records = $em->getRepository("OCPlatformBundle:Advert")->findAll();
 
