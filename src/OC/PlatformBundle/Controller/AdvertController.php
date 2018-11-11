@@ -5,6 +5,7 @@
 namespace OC\PlatformBundle\Controller;
 
 use OC\PlatformBundle\Entity\Advert;
+use OC\PlatformBundle\Entity\Application;
 use OC\PlatformBundle\Entity\Image;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,12 +40,20 @@ class AdvertController extends Controller
   {
       $em = $this->getDoctrine()->getManager();
 
-      // On récupère l'annonce
       $advert = $em->getRepository('OCPlatformBundle:Advert')->find($id);
 
-    return $this->render('OCPlatformBundle:Advert:view.html.twig', array(
-      'advert' => $advert
-    ));
+      if (null === $advert) {
+          throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
+      }
+
+      $listApplications = $em
+          ->getRepository('OCPlatformBundle:Application')
+          ->findBy(array('advert' => $advert));
+
+      return $this->render('OCPlatformBundle:Advert:view.html.twig', array(
+          'advert'           => $advert,
+          'listApplications' => $listApplications
+      ));
   }
 
   public function addAction(Request $request)
@@ -54,15 +63,23 @@ class AdvertController extends Controller
       $advert->setAuthor('Alexandre');
       $advert->setContent("Nous recherchons un développeur Symfony débutant sur Lyon. Blabla…");
 
-      $image = new Image();
-      $image->setUrl('http://sdz-upload.s3.amazonaws.com/prod/upload/job-de-reve.jpg');
-      $image->setAlt('Job de rêves');
+      $application1 = new Application();
+      $application1->setAuthor('Marine');
+      $application1->setContent("J'ai toutes les qualités requises.");
 
-      $advert->setImage($image);
+      $application2 = new Application();
+      $application2->setAuthor('Pierre');
+      $application2->setContent("Je suis très motivé.");
+
+      $application1->setAdvert($advert);
+      $application2->setAdvert($advert);
 
       $em = $this->getDoctrine()->getManager();
 
       $em->persist($advert);
+
+      $em->persist($application1);
+      $em->persist($application2);
 
       $em->flush();
 

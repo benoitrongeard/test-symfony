@@ -35,4 +35,13 @@
         </a>
     </p>
 
+    {% if listApplications is not empty %}
+        <h2>Candidatures</h2>
+        {% for application in listApplications %}
+            <p>{{ application.author }}</p>
+            <p>{{ application.content }}</p>
+            <p>{{ application.date | date }}</p>
+        {% endfor %}
+    {% endif %}
+
 {% endblock %}
