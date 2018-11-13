@@ -15,9 +15,8 @@ class AdvertController extends Controller
 {
   public function indexAction($page)
   {
-      phpinfo();
       $em = $this->getDoctrine()->getManager();
-      $listAdverts = $records = $em->getRepository("OCPlatformBundle:Advert")->findAll();
+      $listAdverts = $em->getRepository("OCPlatformBundle:Advert")->findAll();
 
       return $this->render('OCPlatformBundle:Advert:index.html.twig', array(
           'listAdverts' => $listAdverts
