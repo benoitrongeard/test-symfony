@@ -40,7 +40,10 @@ class AdvertController extends Controller
   {
       $em = $this->getDoctrine()->getManager();
 
-      $advert = $em->getRepository('OCPlatformBundle:Advert')->find($id);
+      $advert = $em
+          ->getRepository('OCPlatformBundle:Advert')
+          ->find($id)
+      ;
 
       if (null === $advert) {
           throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
@@ -48,38 +51,44 @@ class AdvertController extends Controller
 
       $listApplications = $em
           ->getRepository('OCPlatformBundle:Application')
-          ->findBy(array('advert' => $advert));
+          ->findBy(array('advert' => $advert))
+      ;
+
+      $listAdvertSkills = $em
+          ->getRepository('OCPlatformBundle:AdvertSkill')
+          ->findBy(array('advert' => $advert))
+      ;
 
       return $this->render('OCPlatformBundle:Advert:view.html.twig', array(
           'advert'           => $advert,
-          'listApplications' => $listApplications
+          'listApplications' => $listApplications,
+          'listAdvertSkills' => $listAdvertSkills
       ));
   }
 
   public function addAction(Request $request)
   {
+      $em = $this->getDoctrine()->getManager();
+
       $advert = new Advert();
       $advert->setTitle('Recherche développeur Symfony.');
       $advert->setAuthor('Alexandre');
       $advert->setContent("Nous recherchons un développeur Symfony débutant sur Lyon. Blabla…");
 
-      $application1 = new Application();
-      $application1->setAuthor('Marine');
-      $application1->setContent("J'ai toutes les qualités requises.");
+      $listSkills = $em->getRepository('OCPlatformBundle:Skill')->findAll();
 
-      $application2 = new Application();
-      $application2->setAuthor('Pierre');
-      $application2->setContent("Je suis très motivé.");
+      foreach ($listSkills as $skill) {
+          $advertSkill = new AdvertSkill();
 
-      $application1->setAdvert($advert);
-      $application2->setAdvert($advert);
+          $advertSkill->setAdvert($advert);
+          $advertSkill->setSkill($skill);
 
-      $em = $this->getDoctrine()->getManager();
+          $advertSkill->setLevel('Expert');
+
+          $em->persist($advertSkill);
+      }
 
       $em->persist($advert);
-
-      $em->persist($application1);
-      $em->persist($application2);
 
       $em->flush();
 
