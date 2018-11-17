@@ -10,4 +10,13 @@ namespace OC\PlatformBundle\Repository;
  */
 class AdvertRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getAdvertWithCategories(array $categoryName)
+    {
+        $qb = $this->createQueryBuilder('a');
+
+        $qb->innerJoin('a.categories', 'c')
+            ->where($qb->expr()->in('c.name', $categoryName));
+
+        return $qb->getQuery()->getResult();
+    }
 }

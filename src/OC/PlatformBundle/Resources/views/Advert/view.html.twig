@@ -35,6 +35,11 @@
         </a>
     </p>
 
+    <h2>Catégories :</h2>
+    {% for category in advert.categories %}
+        <p>{{ category.name }}</p>
+    {% endfor %}
+
     {% if listApplications is not empty %}
         <h2>Candidatures</h2>
         {% for application in listApplications %}

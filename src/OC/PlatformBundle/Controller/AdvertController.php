@@ -5,6 +5,7 @@
 namespace OC\PlatformBundle\Controller;
 
 use OC\PlatformBundle\Entity\Advert;
+use OC\PlatformBundle\Entity\AdvertSkill;
 use OC\PlatformBundle\Entity\Application;
 use OC\PlatformBundle\Entity\Image;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -86,6 +87,12 @@ class AdvertController extends Controller
           $advertSkill->setLevel('Expert');
 
           $em->persist($advertSkill);
+      }
+
+      $listCategory = $em->getRepository('OCPlatformBundle:Category')->findAll();
+
+      foreach ($listCategory as $category) {
+          $advert->addCategory($category);
       }
 
       $em->persist($advert);
