@@ -25,3 +25,15 @@
     </ul>
 
 {% endblock %}
+
+{% block ocplatform_categories %}
+    <h2>Liste des catégories</h2>
+
+    {% for category in listCategory %}
+        <li>
+            <a href="{{ path('oc_platform_list_from_category', {'name': category.name}) }}">
+                {{ category.name }}
+            </a>
+        </li>
+    {% endfor %}
+{% endblock %}

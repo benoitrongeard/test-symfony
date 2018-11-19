@@ -2,7 +2,7 @@
     {% for advert in listAdverts %}
         <li>
             <a href="{{ path('oc_platform_view', {'id': advert.id}) }}">
-                {{ advert.title }}
+                {{ advert.title }} - {{ advert.date| date }}
             </a>
         </li>
     {% endfor %}

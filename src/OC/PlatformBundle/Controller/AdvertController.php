@@ -18,23 +18,22 @@ class AdvertController extends Controller
   {
       $em = $this->getDoctrine()->getManager();
       $listAdverts = $em->getRepository("OCPlatformBundle:Advert")->findAll();
+      $listCategory = $em->getRepository("OCPlatformBundle:Category")->findAll();
 
       return $this->render('OCPlatformBundle:Advert:index.html.twig', array(
-          'listAdverts' => $listAdverts
+          'listAdverts' => $listAdverts,
+          'listCategory' => $listCategory
       ));
   }
 
   public function menuAction($limit)
   {
-    $listAdverts = array(
-      array('id' => 2, 'title' => 'Recherche développeur Symfony'),
-      array('id' => 5, 'title' => 'Mission de webmaster'),
-      array('id' => 9, 'title' => 'Offre de stage webdesigner')
-    );
+      $em = $this->getDoctrine()->getManager();
+      $listAdverts = $em->getRepository("OCPlatformBundle:Advert")->findBy(array(), array('date' => 'DESC'), $limit);
 
-    return $this->render('OCPlatformBundle:Advert:menu.html.twig', array(
-      'listAdverts' => $listAdverts
-    ));
+      return $this->render('@OCPlatform/Advert/menu.html.twig', array(
+         'listAdverts' => $listAdverts
+      ));
   }
 
   public function viewAction($id)
@@ -126,5 +125,17 @@ class AdvertController extends Controller
   public function deleteAction($id)
   {
     return $this->render('OCPlatformBundle:Advert:delete.html.twig');
+  }
+
+  public function listFromCategoryAction($name)
+  {
+      $em = $this->getDoctrine()->getManager();
+
+      $listAdvert = $em->getRepository('OCPlatformBundle:Advert')->getAdvertWithCategories(urldecode($name));
+
+      echo('bonjour');
+      echo(print_r($listAdvert, true));
+      die();
+      return $listAdvert;
   }
 }

@@ -299,7 +299,7 @@ class Advert
      *
      * @return Advert
      */
-    public function addApplication(\OC\PlatformBundle\Entity\Application $application)
+    public function addApplication(Application $application)
     {
         $this->applications[] = $application;
 
@@ -315,7 +315,7 @@ class Advert
      *
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removeApplication(\OC\PlatformBundle\Entity\Application $application)
+    public function removeApplication(Application $application)
     {
         return $this->applications->removeElement($application);
     }
