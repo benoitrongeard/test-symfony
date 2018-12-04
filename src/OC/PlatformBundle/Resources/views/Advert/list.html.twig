@@ -1,11 +1,11 @@
-{% extends "OCPlatformBundle::layout.html.twig" %}
+{% extends "layout.html.twig" %}
 
 {% block title %}
-    Accueil -
+    Liste des annonces :
     {{ parent() }}
 {% endblock %}
 
-{% block ocplatform_body %}
+{% block body %}
 
     <h2>Liste des annonces</h2>
 
@@ -24,16 +24,4 @@
         {% endfor %}
     </ul>
 
-{% endblock %}
-
-{% block ocplatform_categories %}
-    <h2>Liste des catégories</h2>
-
-    {% for category in listCategory %}
-        <li>
-            <a href="{{ path('oc_platform_list_from_category', {'id': category.id}) }}">
-                {{ category.name }}
-            </a>
-        </li>
-    {% endfor %}
 {% endblock %}

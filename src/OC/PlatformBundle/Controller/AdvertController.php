@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AdvertController extends Controller
 {
-  public function indexAction($page)
+    public function indexAction($page)
   {
       $em = $this->getDoctrine()->getManager();
       $listAdverts = $em->getRepository("OCPlatformBundle:Advert")->findAll();
@@ -127,15 +127,14 @@ class AdvertController extends Controller
     return $this->render('OCPlatformBundle:Advert:delete.html.twig');
   }
 
-  public function listFromCategoryAction($name)
+  public function listFromCategoryAction($id)
   {
       $em = $this->getDoctrine()->getManager();
 
-      $listAdvert = $em->getRepository('OCPlatformBundle:Advert')->getAdvertWithCategories(urldecode($name));
+      $listAdverts = $em->getRepository('OCPlatformBundle:Advert')->getAdvertWithCategories(urldecode($id));
 
-      echo('bonjour');
-      echo(print_r($listAdvert, true));
-      die();
-      return $listAdvert;
+      return $this->render('OCPlatformBundle:Advert:list.html.twig', array(
+          'listAdverts' => $listAdverts
+      ));
   }
 }

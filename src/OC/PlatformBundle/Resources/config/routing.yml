@@ -32,6 +32,6 @@ oc_platform_delete:
     requirements:
         id: \d+
 oc_platform_list_from_category:
-    path:   /category/{name}
+    path:   /category/{id}
     defaults:
         _controller: OCPlatformBundle:Advert:listFromCategory
