@@ -75,6 +75,17 @@ class AdvertController extends Controller
       $advert->setAuthor('Alexandre');
       $advert->setContent("Nous recherchons un développeur Symfony débutant sur Lyon. Blabla…");
 
+      $application1 = new Application();
+      $application1->setAuthor('Marine');
+      $application1->setContent("J'ai toutes les qualités requises.");
+
+      $application2 = new Application();
+      $application2->setAuthor('Pierre');
+      $application2->setContent("Je suis très motivé.");
+
+      $application1->setAdvert($advert);
+      $application2->setAdvert($advert);
+
       $listSkills = $em->getRepository('OCPlatformBundle:Skill')->findAll();
 
       foreach ($listSkills as $skill) {
@@ -95,6 +106,8 @@ class AdvertController extends Controller
       }
 
       $em->persist($advert);
+      $em->persist($application1);
+      $em->persist($application2);
 
       $em->flush();
 
